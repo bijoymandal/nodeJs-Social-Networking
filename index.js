@@ -22,6 +22,8 @@ server.get("/",(req,res)=>{
     res.send("Welcome to Social Media Platform");
 });
 
+// server.
+
 server.listen(3200,()=>{
     console.log("server is running at 3200");
 });
