@@ -12,7 +12,7 @@ var corsOptions = {
 server.use(cors(corsOptions));
 
 //error haandler middleware
-server,use((error,req,res,next)=>{
+server.use((error,req,res,next)=>{
     console.log(error);
     res.status(503).send("Something went wrong,please try later");
 });
