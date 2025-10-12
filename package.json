@@ -1,0 +1,23 @@
+{
+  "name": "social-networking-platform",
+  "version": "1.0.0",
+  "description": "This project enables to users to connect socially by creating and sharing posts containing text,images,or videos. It also allows user engagement through likes and comments , forming the foundation for a modern, scalable social media experience.The express Node servers as the core engine for managing user authentication, media uploads , post interactions, and secqure data handling.",
+  "keywords": [
+    "facebook",
+    "wechat",
+    "whatsapp",
+    "messanger"
+  ],
+  "license": "ISC",
+  "author": "bijoymandal",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}
