@@ -1,6 +1,12 @@
+
+import dotenv from "dotenv";
+dotenv.config();
 import fs from 'fs';
 import express from "express";
 import cors from "cors";
+
+import userRouter from './src/feature/user/routes/user.routes.js';
+import jwtAuth from './src/middleware/jwt.middleware.js';
 
 const server = express();
 //middleware to parse json request body
@@ -22,8 +28,8 @@ server.get("/",(req,res)=>{
     res.send("Welcome to Social Media Platform");
 });
 
-// server.
+server.use("/api/users",userRouter);
 
-server.listen(3200,()=>{
-    console.log("server is running at 3200");
+server.listen(process.env.PORT,()=>{
+    console.log(`server is running at ${process.env.PORT}`);
 });
