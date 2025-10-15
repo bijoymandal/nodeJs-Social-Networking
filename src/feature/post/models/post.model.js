@@ -94,6 +94,21 @@ export default class postModel{
         Posts.splice(index,1);
         return Posts;
     }
+    static filterByPostCaption(keyword){
+      try{
+        if(!keyword || keyword.trim()==="")
+        {
+          return Posts.filter((p)=>p.status==="published");
+        }
+        
+        const search = keyword.trim().toLowerCase();
+        const matched = Posts.filter((p)=>p.status==="published" && p.caption.toLowerCase().includes(search));
+        return matched;
+      }
+      catch(error){
+        throw new ApplicationError("Error filtering post",500);
+      }
+    }
 }
 
 let Posts = [
@@ -102,6 +117,7 @@ let Posts = [
     userId: 2,
     caption: "Morning coffee vibes ☕",
     imageUrl: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800",
+    status:"published",
     
   },
   {
@@ -109,18 +125,21 @@ let Posts = [
     userId: 1,
     caption: "Exploring the city lights 🌆",
     imageUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800",
+    status:"published"
   },
   {
     id: 3,
     userId: 2,
     caption: "Nature’s calm 🌿",
     imageUrl: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800",
+    status:"draft"
   },
   {
     id: 4,
     userId: 1,
     caption: "Working late nights 💻",
     imageUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800",
+    status:"archived"
   },
 ];
 

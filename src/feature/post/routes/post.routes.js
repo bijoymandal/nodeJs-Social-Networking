@@ -15,6 +15,10 @@ postRouter.get("/",(req,res)=>{
 postRouter.post("/",(req,res)=>{
     PostController.addPost(req,res);
 });
+//filter caption
+postRouter.get("/filter",(req,res)=>{
+    PostController.filter(req,res);
+})
 // show post by specific id
 postRouter.get("/:postid",(req,res)=>{
     PostController.show(req,res);
@@ -26,5 +30,6 @@ postRouter.patch("/:id/update",(req,res)=>{
 postRouter.delete("/:id",(req,res)=>{
     PostController.delete(req,res);
 });
+
 
 export default postRouter;

@@ -129,4 +129,16 @@ export default class postController{
             res.status(404).json({message:"Unauthorized users",error:error.message});
         }
     }
+    async filter(req,res){
+        
+        try{
+            const {caption} = req.query;
+            const filtered = postModel.filterByPostCaption(caption);
+            res.status(200).json({total:filtered.length,data:filtered});
+        }
+        catch(error)
+        {
+            res.status(404).json({message:error.message});
+        }
+    }
 }
