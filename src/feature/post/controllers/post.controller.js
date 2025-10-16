@@ -4,8 +4,9 @@ export default class postController{
 
     async index(req,res){
         try{
-            const posts = postModel.getAllPost();
-            res.status(200).json({message:"All Posts",posts});
+            const {sortBy,page,limit,caption} = req.query;
+            const posts = postModel.getAllPost({sortBy,page,limit,caption});
+            res.status(200).json({posts:posts});
         }
         catch(error)
         {

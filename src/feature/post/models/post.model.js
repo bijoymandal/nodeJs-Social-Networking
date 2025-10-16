@@ -10,7 +10,7 @@ export default class postModel{
         this.status=status;
     }
     static addPost(userID,caption,imageUrl,isDraft=false){
-        const status = isDraft ?"Draft":"published";
+        const status = isDraft ? "Draft":"published";
         const newPost = {
             id:Posts.length+1,
             userID:Number(userID),
@@ -51,9 +51,33 @@ export default class postModel{
       post.status = "archived"; 
       return post;
     }
-    static getAllPost()
+    static getAllPost({sortBy,page=1,limit=5,caption})  
     {
-        return Posts;
+        let result = Posts.filter(p=>!p.archived & !p.draft);
+        if(caption)
+        {
+          result = result.filter(p=>p.caption.toLowerCase().includes(caption.toLowerCase()));
+        }
+        if(sortBy === "date")
+        {
+          result = result.sort((a,b)=>{
+            const engagementA = (a.likes || 0) + (a.comments||0);
+            const engagementB = (b.likes || 0) + (b.comments||0);
+            //
+            if(engagementB !== engagementA) return engagementB - engagementA;
+            return new Date(b.createdAt) - new Date(a.createdAt);
+          });
+
+        }
+        else if(sortBy === "engagement"){
+          result = result.sort((a,b)=>(b.likes+b.comments)-(a.likes+a.comments));
+        }
+        //pagination
+        const start = (page -1 )*limit;
+        const end = start + limit;
+        return result.slice(start,end);
+
+        //return Posts;
     }
     //Get all posts of a user
     static getPostById(id)
@@ -124,6 +148,8 @@ let Posts = [
     userId: 2,
     caption: "Morning coffee vibes ☕",
     imageUrl: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800",
+    likes:4,
+    comments:5,
     status:"published",
     createdAt: new Date("2025-10-10"),
     bookmark:[],
@@ -135,6 +161,8 @@ let Posts = [
     userId: 1,
     caption: "Exploring the city lights 🌆",
     imageUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800",
+    likes:10,
+    comments:3,
     status:"published",
     createdAt: new Date("2025-10-14"),
     bookmark:[1],
@@ -144,6 +172,8 @@ let Posts = [
     userId: 2,
     caption: "Nature’s calm 🌿",
     imageUrl: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800",
+    likes:7,
+    comments:9,
     status:"draft",
     createdAt: new Date("2025-10-11"),
     bookmark:[],
@@ -153,6 +183,8 @@ let Posts = [
     userId: 1,
     caption: "Working late nights 💻",
     imageUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800",
+    likes:11,
+    comments:9,
     status:"archived",
     createdAt: new Date("2025-10-16"),
     bookmark:[],
