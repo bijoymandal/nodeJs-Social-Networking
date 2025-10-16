@@ -141,4 +141,57 @@ export default class postController{
             res.status(404).json({message:error.message});
         }
     }
+    async createDraft(req, res) {
+    try {
+      const { caption, imageUrl } = req.body;
+      const userId = req.user.userID;
+      const post = postModel.addPost(userId, caption, imageUrl, true);
+      res.status(201).json({ message: "Draft created", data: post });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  async publishDraft(req, res) {
+    try {
+      const userId = req.user.userID;
+      const postId = req.params.id;
+      const updated = postModel.publishPost(postId, userId);
+      res.status(200).json({ message: "Post published", data: updated });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  async archive(req, res) {
+    try {
+      const userId = req.user.userID;
+      const postId = req.params.id;
+      const archived = postModel.archivedPost(postId, userId);
+      res.status(200).json({ message: "Post archived", data: archived });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  async getDrafts(req, res) {
+    try {
+      const userId = req.user.userID;
+      const drafts = postModel.getDrafts(userId);
+      console.log(drafts);
+      res.status(200).json({ total: drafts.length, data: drafts });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  async getArchived(req, res) {
+    try {
+      const userId = req.user.userID;
+      const archived = postModel.getArchived(userId);
+      res.status(200).json({ total: archived.length, data: archived });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
 }

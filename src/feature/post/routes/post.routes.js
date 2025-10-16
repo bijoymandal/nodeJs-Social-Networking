@@ -19,6 +19,22 @@ postRouter.post("/",(req,res)=>{
 postRouter.get("/filter",(req,res)=>{
     PostController.filter(req,res);
 })
+//get all Drafts lists
+postRouter.get("/drafts",(req,res)=>{
+    PostController.getDrafts(req,res);
+});
+//publish a draft
+postRouter.patch("/:id/publish",(req,res)=>{
+    PostController.publishDraft(req,res);
+});
+// Archive post
+postRouter.patch("/:id/archive",(req,res)=>{
+    PostController.archive(req,res);
+});
+//all archeve posts
+postRouter.get("/archived",(req,res)=>{
+    PostController.getArchived(req,res);
+});
 // show post by specific id
 postRouter.get("/:postid",(req,res)=>{
     PostController.show(req,res);
@@ -27,8 +43,13 @@ postRouter.get("/:postid",(req,res)=>{
 postRouter.patch("/:id/update",(req,res)=>{
     PostController.update(req,res);
 });
+//delete a specific post
 postRouter.delete("/:id",(req,res)=>{
     PostController.delete(req,res);
+});
+//create a post to draft
+postRouter.post("/drafts",(req,res)=>{
+    PostController.createDraft(req,res);
 });
 
 
