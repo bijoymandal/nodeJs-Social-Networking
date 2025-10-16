@@ -1,5 +1,6 @@
 import express from "express";
 import postController from "../controllers/post.controller.js";
+import { uploadFile } from "../../../middleware/upload.middleware.js";
 
 const postRouter = express.Router();
 const PostController = new postController();
@@ -12,7 +13,7 @@ postRouter.get("/",(req,res)=>{
     PostController.getPosts(req,res);
 });
 // Add a New Post
-postRouter.post("/",(req,res)=>{
+postRouter.post("/",uploadFile("image").single("imageUrl"),(req,res)=>{
     PostController.addPost(req,res);
 });
 //filter caption
