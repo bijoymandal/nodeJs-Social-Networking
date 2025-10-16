@@ -1,6 +1,7 @@
 
 import dotenv from "dotenv";
 dotenv.config();
+import loggerMiddleware from "./src/middleware/logger.middleware.js";
 import fs from 'fs';
 import express from "express";
 import cors from "cors";
@@ -19,6 +20,8 @@ var corsOptions = {
     origin:"*"
 }
 server.use(cors(corsOptions));
+//appply logger middleware globally
+server.use(loggerMiddleware);
 
 //error haandler middleware
 server.use((error,req,res,next)=>{
