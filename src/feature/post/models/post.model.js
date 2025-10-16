@@ -140,6 +140,25 @@ export default class postModel{
         throw new ApplicationError("Error filtering post",500);
       }
     }
+    static toggleBookMark(postId,userId)
+    {
+      const post = Posts.find(p=>p.id === Number(postId));
+      if(!post) return null;
+      if(post.bookmark.includes(userId))
+      {
+        post.bookmark = post.bookmark.filter(id=>id !==userId); 
+      }
+      else
+      {
+        post.bookmark.push(userId);
+      }
+      // console.log(post);
+      return post;
+    }
+    getBookmarkedPost(userId)
+    {
+      return Posts.filter(p=>p.bookmark.includes(userId));
+    }
 }
 
 let Posts = [

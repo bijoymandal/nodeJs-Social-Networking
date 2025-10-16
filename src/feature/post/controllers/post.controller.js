@@ -195,4 +195,16 @@ export default class postController{
       res.status(500).json({ message: error.message });
     }
   }
+  async bookMarkToggle(req,res)
+  {
+    try{
+    const post = postModel.toggleBookMark(req.params.postId,req.user.userID);
+    console.log('return post',post);
+    if(!post) res.status(404).json({message:"Post Not Found"});
+    res.json({message:"bookMark Toggled",post});
+    }
+    catch(error){
+        res.status(500).json({message:error.message});
+    }
+  }
 }

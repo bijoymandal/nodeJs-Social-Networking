@@ -35,6 +35,10 @@ postRouter.patch("/:id/archive",(req,res)=>{
 postRouter.get("/archived",(req,res)=>{
     PostController.getArchived(req,res);
 });
+//Any post bookmark updated
+postRouter.put("/bookmark/:postId",(req,res)=>{
+    PostController.bookMarkToggle(req,res);
+})
 // show post by specific id
 postRouter.get("/:postid",(req,res)=>{
     PostController.show(req,res);
