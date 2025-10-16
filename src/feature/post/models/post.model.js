@@ -155,7 +155,7 @@ export default class postModel{
       // console.log(post);
       return post;
     }
-    getBookmarkedPost(userId)
+    static getBookmarkedPosts(userId)
     {
       return Posts.filter(p=>p.bookmark.includes(userId));
     }

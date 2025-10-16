@@ -207,4 +207,16 @@ export default class postController{
         res.status(500).json({message:error.message});
     }
   }
+  async getBookmark(req,res)
+  {
+    try{
+        const posts = postModel.getBookmarkedPosts(req.user.userID);
+        console.log(posts);
+        res.status(200).json({bookmarks:posts});
+    }
+    catch(error)
+    {
+        res.status(500).json({message:error.message});
+    }
+  }
 }
