@@ -1,6 +1,8 @@
 
 import dotenv from "dotenv";
 dotenv.config();
+import fs from "fs";
+import swagger from "swagger-ui-express";
 import loggerMiddleware from "./src/middleware/logger.middleware.js";
 import express from "express";
 import cors from "cors";
@@ -13,6 +15,9 @@ import likeRouter from "./src/feature/likes/routes/like.routes.js";
 import { ApplicationError } from "./src/error-handler/applicationError.js";
 
 const port = process.env.PORT || 3200;
+const apiDocs = JSON.parse(
+  fs.readFileSync(new URL("./swagger.json", import.meta.url), "utf-8")
+);
 const server = express();
 //middleware to parse json request body
 server.use(express.json());
@@ -21,6 +26,7 @@ var corsOptions = {
     origin:"*"
 }
 server.use(cors(corsOptions));
+server.use('/api-docs', swagger.serve, swagger.setup(apiDocs));
 //appply logger middleware globally
 server.use(loggerMiddleware);
 

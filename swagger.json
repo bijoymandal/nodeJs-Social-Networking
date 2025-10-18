@@ -1,0 +1,789 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Social Media Networking",
+        "description": "API for Social Media Networking Application"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3200",
+            "description": "Local server"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "JWT": {
+                "in": "header",
+                "type": "apiKey",
+                "name": "Authorization"
+            }
+        }
+    },
+    "paths": {
+        "/api/users/signup": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "User Signup",
+                "description": "Endpoint for user registration",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "required": true,
+                "responses": {
+                    "201": {
+                        "description": "User created successfully"
+                    },
+                    "400": {
+                        "description": "User registration failed"
+                    }
+                }
+            }
+        },
+        "/api/users/signin": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "User SignIn",
+                "description": "Endpoint for user login",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully"
+                    },
+                    "401": {
+                        "description": "Invalid email or password"
+                    }
+                }
+            }
+        },
+        "/api/users/profile": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "User profile",
+                "description": "Endpoint for user signIn profile",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Users profile show",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/posts/all": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "All Posts",
+                "description": "Endpoint for All posts",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show All posts",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/posts": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "User Posts",
+                "description": "Endpoint for User All posts",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show All posts",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "add Post",
+                "description": "Endpoint for Add Post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "caption": {
+                                        "type": "string"
+                                    },
+                                    "imageUrl": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "caption",
+                                    "imageUrl"
+                                ]
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Add New Post"
+                    },
+                    "401": {
+                        "description": "Something wwnt error"
+                    }
+                }
+            }
+        },
+        "/api/posts/{postid}": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Show Posts By ID",
+                "description": "Endpoint for Show post by ID",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "postid",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique ID of the post to retrive",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "post data fetch",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "userId": {
+                                            "type": "integer"
+                                        },
+                                        "caption": {
+                                            "type": "string"
+                                        },
+                                        "imageUrl": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Post not found"
+                    }
+                }
+            }
+        },
+        "/api/posts/{postid}/update": {
+            "patch": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "User Post id update",
+                "description": "Partially update a post (e.g., caption, tag, or media) by its ID.",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "postid",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique ID of the post to update",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "caption": {
+                                        "type": "string",
+                                        "example": "update caption for the posts"
+                                    },
+                                    "imageUrl": {
+                                        "type": "string",
+                                        "example": "http://example.com/new-image.jpg"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "post updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Post updated"
+                                        },
+                                        "post": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 12
+                                                },
+                                                "caption": {
+                                                    "type": "string",
+                                                    "example": "updated caption for the post"
+                                                },
+                                                "imageUrl": {
+                                                    "type": "string",
+                                                    "example": "http://example.com/new-image.jpg"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No filed to update"
+                    },
+                    "404": {
+                        "description": "post not found"
+                    }
+                }
+            }
+        },
+        "/api/posts/filter": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Posts",
+                "description": "Endpoint for Filter posts",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "caption",
+                        "In": "query",
+                        "description": "Filter post by caption",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Filtered list of posts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "userId": {
+                                                "type": "integer"
+                                            },
+                                            "caption": {
+                                                "type": "string"
+                                            },
+                                            "imageUrl": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/posts/drafts": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "User status draft",
+                "description": "Endpoint for user status draft",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show All drafts in posts",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Post save as draft",
+                "description": "Endpoint for Post save as a status draft mode",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "caption": {
+                                        "type": "string"
+                                    },
+                                    "imageUrl": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "caption",
+                                    "imageUrl"
+                                ]
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Draft created"
+                    },
+                    "401": {
+                        "description": "Something wwnt error"
+                    }
+                }
+            }
+        },
+        "/api/posts/{postId}/publish": {
+            "patch": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Update post publish status by ID",
+                "description": "Partially update a post’s publish status (e.g., mark as published or unpublished) by its ID.",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique ID of the post to update publish status",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "boolean",
+                                        "example": true,
+                                        "description": "Set to true to publish, false to unpublish"
+                                    }
+                                },
+                                "required": [
+                                    "status"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Post publish status updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Post publish status updated"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid or missing publish field"
+                    },
+                    "404": {
+                        "description": "Post not found"
+                    }
+                }
+            }
+        },
+        "/api/posts/{postId}/archive": {
+            "patch": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Update post archive status by ID",
+                "description": "Partially update a post’s archive status (e.g., mark as archive) by its ID.",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique ID of the post to update archive status",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "boolean",
+                                        "example": true,
+                                        "description": "Set to true to archive, false"
+                                    }
+                                },
+                                "required": [
+                                    "status"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Post archived"
+                    },
+                    "400": {
+                        "description": "Invalid or missing publish field"
+                    },
+                    "404": {
+                        "description": "Post not found"
+                    }
+                }
+            }
+        },
+        "/api/posts/archived": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "User post status archive",
+                "description": "Endpoint for user post status archive",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show All archive in posts",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/posts/bookmark": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "User post save bookmark",
+                "description": "Endpoint for user post save bookmark in bookmark",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show All bookmark in posts",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/posts/bookmark/{postId}": {
+            "put": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Update post bookmark to your browser",
+                "description": "Partially update a post’s bookmark",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique ID of the post to update bookmark using save",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "boolean",
+                                        "example": true,
+                                        "description": "Set to true to archive, false"
+                                    }
+                                },
+                                "required": [
+                                    "status"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Post archived"
+                    },
+                    "400": {
+                        "description": "Invalid or missing publish field"
+                    },
+                    "404": {
+                        "description": "Post not found"
+                    }
+                }
+            }
+        },
+        "/api/posts/delete": {
+            "delete": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Delete Post by ID",
+                "description": "Delete a specific post using its unique ID.",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique ID of the post to delete",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Post deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Post deleted successfully"
+                                        },
+                                        "deletedPostId": {
+                                            "type": "integer",
+                                            "example": 25
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized – missing or invalid JWT"
+                    },
+                    "404": {
+                        "description": "Post not found"
+                    }
+                }
+            }
+        }
+    }
+}
