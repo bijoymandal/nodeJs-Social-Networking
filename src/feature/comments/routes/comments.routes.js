@@ -12,7 +12,6 @@ commentRouter.get("/:postId",(req,res)=>{
     commentController.getPostComment(req,res);
 });
 commentRouter.put("/:id",(req,res)=>{
-    
     commentController.update(req,res);
 });
 commentRouter.delete("/:commentId",(req,res)=>{
