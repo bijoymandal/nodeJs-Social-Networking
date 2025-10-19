@@ -706,9 +706,8 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "status": {
-                                        "type": "boolean",
-                                        "example": true,
+                                    "content": {
+                                        "type": "string",
                                         "description": "Set to true to archive, false"
                                     }
                                 },
@@ -778,6 +777,236 @@
                     },
                     "401": {
                         "description": "Unauthorized – missing or invalid JWT"
+                    },
+                    "404": {
+                        "description": "Post not found"
+                    }
+                }
+            }
+        },
+        "/api/comment": {
+            "post": {
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "user post and user wise create comment",
+                "description": "create commenet a post and user wise",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "postId": {
+                                        "type": "integer"
+                                    },
+                                    "comment": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "postId",
+                                    "comment"
+                                ]
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Comment added"
+                    },
+                    "401": {
+                        "description": "Error creating comment"
+                    }
+                }
+            }
+        },
+        "/api/commenet/{postId}": {
+            "get": {
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "User post comment",
+                "description": "Endpoint for user post a all comment by posts",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "postid",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique ID of the post to retrive",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "postComment get successfully"
+                    },
+                    "404": {
+                        "description": "Post not found"
+                    }
+                }
+            }
+        },
+        "/api/comment/{commentId}": {
+            "put": {
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "User post comment updated ",
+                "description": "Endpoint for user post comment updated by post ID",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "comment_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique ID of the comment to update",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "content": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "content"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "comment updated"
+                    },
+                    "404": {
+                        "description": "Post not found"
+                    }
+                }
+            }
+        },
+        "/api/commenet/{commentId}": {
+            "delete": {
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Delete comment by ID",
+                "description": "Delete a specific comment using its unique ID.",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "comment_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique ID of the post to delete",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comment deleted"
+                    },
+                    "401": {
+                        "description": "Unauthorized – missing or invalid JWT"
+                    },
+                    "404": {
+                        "description": "comment not found"
+                    }
+                }
+            }
+        },
+        "/api/likes/{postId}": {
+            "get": {
+                "tags": [
+                    "Likes"
+                ],
+                "summary": "show all likes in post ID",
+                "description": "Endpoint for show all likes in post ID",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "postid",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique ID of the post to retrive",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "post Like get successfully"
+                    },
+                    "404": {
+                        "description": "Post not found"
+                    }
+                }
+            }
+        },
+        "/api/likes/toggle/{postId}": {
+            "get": {
+                "tags": [
+                    "Likes"
+                ],
+                "summary": "show all likes and dislike in post ID",
+                "description": "Endpoint for show all likes and dislike toggle in post ID",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "postid",
+                        "in": "path",
+                        "required": true,
+                        "description": "Unique ID of the post to retrive",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "post Like get successfully"
                     },
                     "404": {
                         "description": "Post not found"
